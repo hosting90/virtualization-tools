@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.59.0"
+#define MyAppVersion "1.59.1"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,7 +14,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-59-0
+OutputBaseFilename=virtio-setup-1-59-1
 Compression=lzma2/ultra
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
