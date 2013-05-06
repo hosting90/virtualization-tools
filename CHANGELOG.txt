@@ -1,0 +1,45 @@
+Version 1.52.5
+installer
+ enable windows update service
+
+Version 1.52.4
+installer
+ install virtio driver certificate
+ install certificate manipulation tools
+
+Version 1.52.3
+installer
+ add rtc setup options
+
+
+Version 1.52.2:
+installer
+ add IPv6 configuration options
+ add changelog
+
+
+
+Version 1.52.1:
+virtio-blk
+ fix blocking IO in random write
+
+virtio-serial
+ auotetect dedvice name
+
+virtio-net
+ better QoS support
+ zerocopy for UDP streams
+
+virtio-scsi
+ initial release
+
+virtio-ballon
+ speed optimization
+
+qxl
+ HW cursor fixies
+ speed optimization
+ HW jpeg compression in VNC console
+
+qemu-guest-agentan
+ initial release 
