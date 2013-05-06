@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.52.5"
+#define MyAppVersion "1.59.0"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,7 +14,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-52-5
+OutputBaseFilename=virtio-setup-1-59-0
 Compression=lzma2/ultra
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
@@ -38,6 +38,7 @@ Name: "custom"; Description: "Custom installation"; Flags: iscustom
 [Components]
 Name: "virtio"; Description: "VirtIO Drivers"; Types: custom full; Flags: fixed restart
 Name: "qemuga"; Description: "QEMU Guest Agent"; Types: custom full; Flags: restart
+Name: "vdagent"; Description: "Spice Agent integration service"; Types: custom full; Flags: restart
 
 [Code]
 const
@@ -247,6 +248,8 @@ Source: "libglib-2.0-0.dll"; DestDir: "{app}"; Flags: ignoreversion; Components:
 Source: "libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
 Source: "libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
 Source: "qemu-ga.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "vdagent.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
+Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "drivers\win7\amd64\*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
@@ -273,6 +276,9 @@ Filename: "{sys}\PnPutil.exe"; Parameters: "-i -a ""{app}\drivers\*.inf"; Workin
 
 ; Install QEMU Guest Agent service
 Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: qemuga
+
+; Install Spice Agent service
+Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent
 
 ; Windows Updates
 Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start= auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate                                                                           
