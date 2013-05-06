@@ -21,7 +21,7 @@ ArchitecturesInstallIn64BitMode=x64
 MinVersion=6.1
 ExtraDiskSpaceRequired=10485760
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
-SignTool=signtool.exe sign $f 
+SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q $f 
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -40,6 +40,7 @@ Name: "custom"; Description: "Custom installation"; Flags: iscustom
 [Components]
 Name: "virtio"; Description: "VirtIO Drivers"; Types: custom full; Flags: fixed restart
 Name: "qemuga"; Description: "QEMU Guest Agent"; Types: custom full; Flags: restart
+Name: "ballooning"; Description: "Memory ballooning service"; Types: custom full; Flags: restart; ExtraDiskSpaceRequired: 1024000
 Name: "vdagent"; Description: "Spice Agent integration service"; Types: custom full; Flags: restart
 
 [Code]
@@ -115,11 +116,7 @@ var
 begin
   GetWindowsVersionEx(Version);
   if (Version.Major = 6) and
-     (Version.Minor = 1) and
-     (
-       (Version.ProductType = VER_NT_SERVER) or
-       (Version.ProductType = VER_NT_DOMAIN_CONTROLLER)
-     )
+     (Version.Minor = 1)
   then
     Result := True
   else
@@ -132,11 +129,7 @@ var
 begin
   GetWindowsVersionEx(Version);
   if (Version.Major = 6) and
-     (Version.Minor = 2) and
-     (
-       (Version.ProductType = VER_NT_SERVER) or
-       (Version.ProductType = VER_NT_DOMAIN_CONTROLLER)
-     )
+     (Version.Minor = 2)
   then
     Result := True
   else
@@ -254,8 +247,12 @@ Source: "vdagent.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdage
 Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
-Source: "drivers\win7\amd64\*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
-Source: "drivers\win8\amd64\*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
+Source: "drivers\win7\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
+Source: "drivers\win8\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
+Source: "drivers\win7\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
+Source: "drivers\win8\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2012 
+Source: "drivers\COPYING"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio;
+Source: "drivers\LICENSE"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; 
 Source: "CHANGELOG.txt"; DestDir: "{app}"; DestName: "CHANGELOG.txt"; Flags: ignoreversion
 
 [Registry]
@@ -275,6 +272,9 @@ Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set global randomizeide
 ; Install drivers
 Filename: "{app}\certutil.exe"; Parameters: "-addstore TrustedPublisher RedHat.cer"; WorkingDir: "{app}"; Flags: runhidden; Components: virtio
 Filename: "{sys}\PnPutil.exe"; Parameters: "-i -a ""{app}\drivers\*.inf"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio
+
+; Install Balloon Service
+Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Flags: 64bit runhidden; Components: virtio ballooning
 
 ; Install QEMU Guest Agent service
 Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: qemuga

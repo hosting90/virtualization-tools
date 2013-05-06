@@ -1,3 +1,21 @@
+Version 1.59.0
+installer
+ add package digital signature
+ add vdagent - Spice Agent integration service
+ add mamory ballooning service
+
+virtio-net
+ enable receive side scaling
+
+virtio-*
+ do not check VIRTIO_PCI_ISR when not needed
+ othel small optimisations
+
+virtio-scsi
+  fixed BSOD on Windows 2012, 64bit
+
+
+
 Version 1.52.5
 installer
  enable windows update service
