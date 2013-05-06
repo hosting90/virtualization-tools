@@ -21,7 +21,7 @@ ArchitecturesInstallIn64BitMode=x64
 MinVersion=6.1
 ExtraDiskSpaceRequired=10485760
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
-SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q $f 
+SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://timestamp.verisign.com/scripts/timastamp.dll $f 
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
