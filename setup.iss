@@ -20,6 +20,8 @@ SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
 MinVersion=6.1
 ExtraDiskSpaceRequired=10485760
+;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
+SignTool=signtool.exe sign $f 
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
