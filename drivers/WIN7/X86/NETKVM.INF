@@ -13,7 +13,7 @@ Class       = Net
 CatalogFile = netkvm.cat 
 ClassGUID   = {4d36e972-e325-11ce-bfc1-08002be10318} 
 Provider    = %RedHat% 
-DriverVer=04/17/2013,61.64.104.5900 
+DriverVer=06/19/2013,61.65.104.6500 
 DriverPackageType = PlugAndPlay 
 DriverPackageDisplayName = %kvmnet6.DeviceDesc% 
  
@@ -57,14 +57,14 @@ HKR, Ndi,                         Service,             0, "netkvm"
 HKR, Ndi\Interfaces,              UpperRange,          0, "ndis5" 
 HKR, Ndi\Interfaces,              LowerRange,          0, "ethernet" 
  
-HKR, Ndi\params\*RSS,             ParamDesc,           0, "RSS" 
+HKR, Ndi\params\*RSS,             ParamDesc,           0, "Receive Side Scaling" 
 HKR, Ndi\params\*RSS,             Type,                0, "enum" 
 HKR, Ndi\params\*RSS,             Default,             0, "1" 
 HKR, Ndi\params\*RSS,             Optional,            0, "0" 
 HKR, Ndi\params\*RSS\enum,        "0",                 0, "Disabled" 
 HKR, Ndi\params\*RSS\enum,        "1",                 0, "Enabled" 
  
-HKR, Ndi\params\*NumRssQueues,          ParamDesc,  0,          "Max number of RSS queues to use" 
+HKR, Ndi\params\*NumRssQueues,          ParamDesc,  0,          "Maximum Number of RSS Queues" 
 HKR, Ndi\params\*NumRssQueues,          type,       0,          "int" 
 HKR, Ndi\params\*NumRssQueues,          default,    0,          "8" 
 HKR, Ndi\params\*NumRssQueues,          min,        0,          "1" 
@@ -232,12 +232,6 @@ HKR, Ndi\params\NumberOfHandledRXPackersInDPC,       min,        0,          "1"
 HKR, Ndi\params\NumberOfHandledRXPackersInDPC,       max,        0,          "10000" 
 HKR, Ndi\params\NumberOfHandledRXPackersInDPC,       step,       0,          "1" 
  
-HKR, Ndi\Params\UseSwTxChecksum,    ParamDesc,  0,          %UseSwTxChecksum% 
-HKR, Ndi\Params\UseSwTxChecksum,    Default,    0,          "0" 
-HKR, Ndi\Params\UseSwTxChecksum,    type,       0,          "enum" 
-HKR, Ndi\Params\UseSwTxChecksum\enum,   "1",    0,          %Enable% 
-HKR, Ndi\Params\UseSwTxChecksum\enum,   "0",    0,          %Disable% 
- 
 [kvmnet6.CopyFiles] 
 netkvm.sys,,,2 
  
@@ -292,7 +286,6 @@ Tx = "Tx Enabled";
 Rx = "Rx Enabled"; 
 TxRx = "Rx & Tx Enabled"; 
 NumberOfHandledRXPackersInDPC = "TestOnly.RXThrottle" 
-UseSwTxChecksum = "TestOnly.UseSwTxChecksum" 
 Std.LsoV2IPv4 = "Large Send Offload V2 (IPv4)" 
 Std.LsoV2IPv6 = "Large Send Offload V2 (IPv6)" 
 Std.UDPChecksumOffloadIPv4 = "UDP Checksum Offload (IPv4)" 

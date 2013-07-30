@@ -1,3 +1,18 @@
+Version 1.65.1
+installer
+ add Spice Agent integration service
+ add Memory ballooning service
+   
+
+virtio-net
+ fix link indications
+ merge changes from Vadim's repository
+
+virtio-*
+ merge changes from Vadim's repository
+ code cleanups
+  
+
 Version 1.59.0
 installer
  add package digital signature
