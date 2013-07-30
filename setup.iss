@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.59.1"
+#define MyAppVersion "1.65.2"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -20,6 +20,8 @@ SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
 MinVersion=6.1
 ExtraDiskSpaceRequired=10485760
+CloseApplications=yes
+CloseApplicationsFilter=''
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
 SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://timestamp.verisign.com/scripts/timastamp.dll $f 
 
@@ -45,40 +47,44 @@ Name: "vdagent"; Description: "Spice Agent integration service"; Types: custom f
 
 [Code]
 const
-PRODUCT_ULTIMATE = $00000001;
-PRODUCT_HOME_BASIC = $00000002;
-PRODUCT_HOME_PREMIUM = $00000003;
-PRODUCT_ENTERPRISE = $00000004;
-PRODUCT_HOME_BASIC_N = $00000005;
-PRODUCT_BUSINESS = $00000006;
-PRODUCT_STANDARD_SERVER = $00000007;
-PRODUCT_DATACENTER_SERVER = $00000008;
-PRODUCT_ENTERPRISE_SERVER = $0000000A;
-PRODUCT_STARTER = $0000000B;
-PRODUCT_DATACENTER_SERVER_CORE = $0000000C;
-PRODUCT_STANDARD_SERVER_CORE = $0000000D;
-PRODUCT_ENTERPRISE_SERVER_CORE = $0000000E;
-PRODUCT_ENTERPRISE_SERVER_IA64 = $0000000F;
-PRODUCT_BUSINESS_N = $00000010;
-PRODUCT_WEB_SERVER = $00000011;
-PRODUCT_CLUSTER_SERVER = $00000012;
-PRODUCT_HOME_PREMIUM_N = $0000001A;
-PRODUCT_ENTERPRISE_N = $0000001B;
-PRODUCT_WEB_SERVER_CORE = $0000001D;
-PRODUCT_STANDARD_SERVER_V = $00000024;
-PRODUCT_DATACENTER_SERVER_V = $00000025;
-PRODUCT_ENTERPRISE_SERVER_V = $00000026;
-PRODUCT_DATACENTER_SERVER_CORE_V = $00000027;
-PRODUCT_STANDARD_SERVER_CORE_V = $00000028;
-PRODUCT_ENTERPRISE_SERVER_CORE_V = $00000029;
-PRODUCT_PROFESSIONAL = $00000030;
-PRODUCT_PROFESSIONAL_N = $00000031;
-PRODUCT_PROFESSIONAL_E = $00000045;
-PRODUCT_ENTERPRISE_E = $00000046;
+
+  PRODUCT_ULTIMATE = $00000001;
+  PRODUCT_HOME_BASIC = $00000002;
+  PRODUCT_HOME_PREMIUM = $00000003;
+  PRODUCT_ENTERPRISE = $00000004;
+  PRODUCT_HOME_BASIC_N = $00000005;
+  PRODUCT_BUSINESS = $00000006;
+  PRODUCT_STANDARD_SERVER = $00000007;
+  PRODUCT_DATACENTER_SERVER = $00000008;
+  PRODUCT_ENTERPRISE_SERVER = $0000000A;
+  PRODUCT_STARTER = $0000000B;
+  PRODUCT_DATACENTER_SERVER_CORE = $0000000C;
+  PRODUCT_STANDARD_SERVER_CORE = $0000000D;
+  PRODUCT_ENTERPRISE_SERVER_CORE = $0000000E;
+  PRODUCT_ENTERPRISE_SERVER_IA64 = $0000000F;
+  PRODUCT_BUSINESS_N = $00000010;
+  PRODUCT_WEB_SERVER = $00000011;
+  PRODUCT_CLUSTER_SERVER = $00000012;
+  PRODUCT_HOME_PREMIUM_N = $0000001A;
+  PRODUCT_ENTERPRISE_N = $0000001B;
+  PRODUCT_WEB_SERVER_CORE = $0000001D;
+  PRODUCT_STANDARD_SERVER_V = $00000024;
+  PRODUCT_DATACENTER_SERVER_V = $00000025;
+  PRODUCT_ENTERPRISE_SERVER_V = $00000026;
+  PRODUCT_DATACENTER_SERVER_CORE_V = $00000027;
+  PRODUCT_STANDARD_SERVER_CORE_V = $00000028;
+  PRODUCT_ENTERPRISE_SERVER_CORE_V = $00000029;
+  PRODUCT_PROFESSIONAL = $00000030;
+  PRODUCT_PROFESSIONAL_N = $00000031;
+  PRODUCT_PROFESSIONAL_E = $00000045;
+  PRODUCT_ENTERPRISE_E = $00000046;
+
+function GetLastError() : LongInt;
+external 'GetLastError@kernel32.dll stdcall';
+
 
 function GetProductInfo(major, minor, spmajor, spminor: Integer; var product: Integer): Integer;
 external 'GetProductInfo@Kernel32.dll stdcall delayload';
-
 
 function IsX64: Boolean;
 begin
@@ -123,6 +129,7 @@ begin
     Result := False;
 end;
 
+
 function UseDriverForWindows2012(): Boolean;
 var
   Version: TWindowsVersion;
@@ -135,6 +142,7 @@ begin
   else
     Result := False;
 end;
+
 
 function GetMAKKey(Default:String): String;
 var
@@ -229,6 +237,7 @@ begin
   end;
 end;
 
+
 function IsMAKKey(): Boolean;
 begin
   if (GetMAKKey('')='') then
@@ -237,6 +246,36 @@ begin
     Result := True;
 end;
 
+
+function PrepareToInstall(var NeedsRestart: Boolean): String;
+var
+  ResultCode : Integer;
+begin
+  Exec(
+    ExpandConstant('{sys}\sc.exe'),
+    'stop "BalloonService"',
+    '', 
+    SW_HIDE, 
+    ewWaitUntilTerminated, 
+    ResultCode
+    );
+  Exec(
+    ExpandConstant('{sys}\sc.exe'),
+    'stop "vdservice"',
+    '', 
+    SW_HIDE, 
+    ewWaitUntilTerminated, 
+    ResultCode
+    );
+  Exec(
+    ExpandConstant('{sys}\sc.exe'),
+    'stop "qemu-ga"',
+    '', 
+    SW_HIDE, 
+    ewWaitUntilTerminated, 
+    ResultCode
+    );
+end;
 
 [Files]
 Source: "libglib-2.0-0.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
@@ -275,12 +314,15 @@ Filename: "{sys}\PnPutil.exe"; Parameters: "-i -a ""{app}\drivers\*.inf"; Workin
 
 ; Install Balloon Service
 Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Flags: 64bit runhidden; Components: virtio ballooning
+Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio ballooning
 
 ; Install QEMU Guest Agent service
-Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: qemuga
+Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio qemuga
+Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio qemuga
 
 ; Install Spice Agent service
 Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent
+Filename: "{sys}\sc.exe"; Parameters: "start vdservice"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent                                                                           
 
 ; Windows Updates
 Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start= auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate                                                                           
