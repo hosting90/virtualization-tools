@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.65.2"
+#define MyAppVersion "1.100.1"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,7 +14,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-65-2
+OutputBaseFilename=virtio-setup-1-100-1
 Compression=lzma2/ultra
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
@@ -23,6 +23,7 @@ ExtraDiskSpaceRequired=10485760
 CloseApplications=yes
 CloseApplicationsFilter=''
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
+;SignTool - http://www.microsoft.com/en-us/download/details.aspx?id=8279
 SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://timestamp.verisign.com/scripts/timastamp.dll $f 
 
 [Languages]
@@ -47,7 +48,6 @@ Name: "vdagent"; Description: "Spice Agent integration service"; Types: custom f
 
 [Code]
 const
-
   PRODUCT_ULTIMATE = $00000001;
   PRODUCT_HOME_BASIC = $00000002;
   PRODUCT_HOME_PREMIUM = $00000003;
@@ -76,6 +76,7 @@ const
   PRODUCT_ENTERPRISE_SERVER_CORE_V = $00000029;
   PRODUCT_PROFESSIONAL = $00000030;
   PRODUCT_PROFESSIONAL_N = $00000031;
+  PRODUCT_ESSENTIALS_SERVER = $00000032;
   PRODUCT_PROFESSIONAL_E = $00000045;
   PRODUCT_ENTERPRISE_E = $00000046;
 
@@ -136,12 +137,13 @@ var
 begin
   GetWindowsVersionEx(Version);
   if (Version.Major = 6) and
-     (Version.Minor = 2)
+     ((Version.Minor = 2) or (Version.Minor = 3))
   then
     Result := True
   else
     Result := False;
 end;
+
 
 
 function GetMAKKey(Default:String): String;
@@ -234,6 +236,26 @@ begin
       end;
     end;
 
+    if (Version.Minor = 3) then begin // Windows 8.1, Windows Server 2012 R2
+      if (Version.ProductType = VER_NT_WORKSTATION) then begin // Vista
+        if(Product = PRODUCT_PROFESSIONAL) then
+          Result := 'GCRJD-8NW9H-F2CDX-CCM8D-9D6T9';
+        if(Product = PRODUCT_PROFESSIONAL_N) then
+          Result := 'HMCNV-VVBFX-7HMBH-CTY9B-B4FXY';
+        if(Product = PRODUCT_ENTERPRISE) then
+          Result := 'MHF9N-XY6XB-WVXMC-BTDCT-MKKG7';
+        if(Product = PRODUCT_ENTERPRISE_N) then
+          Result := 'TT4HM-HN7YT-62K67-RGRQJ-JFFXW';
+      end else begin
+        if(Product = PRODUCT_STANDARD_SERVER) then
+          Result := 'D2N9P-3P6X9-2R39C-7RTCD-MDVJX';
+        if(Product = PRODUCT_DATACENTER_SERVER) then
+          Result := 'W3GGN-FT8W3-Y4M27-J84CP-Q3VJ9';
+        if(Product = PRODUCT_ESSENTIALS_SERVER) then
+          Result := 'KNC87-3J2TX-XB4WP-VCPJV-M4FWM';
+      end;
+    end;
+
   end;
 end;
 
@@ -275,6 +297,7 @@ begin
     ewWaitUntilTerminated, 
     ResultCode
     );
+  Result := '';
 end;
 
 [Files]
@@ -313,12 +336,12 @@ Filename: "{app}\certutil.exe"; Parameters: "-addstore TrustedPublisher RedHat.c
 Filename: "{sys}\PnPutil.exe"; Parameters: "-i -a ""{app}\drivers\*.inf"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio
 
 ; Install Balloon Service
-Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Flags: 64bit runhidden; Components: virtio ballooning
-Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio ballooning
+Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Flags: 64bit runhidden; Components: virtio and ballooning
+Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and ballooning
 
 ; Install QEMU Guest Agent service
-Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio qemuga
-Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio qemuga
+Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga
+Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga
 
 ; Install Spice Agent service
 Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent

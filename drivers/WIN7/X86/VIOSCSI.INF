@@ -4,7 +4,7 @@ Signature="$Windows NT$"
 Class=SCSIAdapter
 ClassGUID={4D36E97B-E325-11CE-BFC1-08002BE10318}
 Provider=%RHEL%
-DriverVer=06/19/2013,61.65.104.6500 
+DriverVer=01/13/2015,61.71.104.10000 
 CatalogFile=vioscsi.cat
 DriverPackageType = PlugAndPlay
 DriverPackageDisplayName = %RHELScsi.DeviceDesc%
@@ -79,8 +79,8 @@ HKR, "Parameters", "BusType", %REG_DWORD%, 0x00000001
 [pnpsafe_pci_addreg_msix]
 HKR, "Interrupt Management",, 0x00000010
 HKR, "Interrupt Management\MessageSignaledInterruptProperties",, 0x00000010
-HKR, "Interrupt Management\MessageSignaledInterruptProperties", MSISupported, 0x00010001, 0
-HKR, "Interrupt Management\MessageSignaledInterruptProperties", MessageNumberLimit, 0x00010001, 2
+HKR, "Interrupt Management\MessageSignaledInterruptProperties", MSISupported, 0x00010001, 1
+HKR, "Interrupt Management\MessageSignaledInterruptProperties", MessageNumberLimit, 0x00010001, 256
 HKR, "Interrupt Management\Affinity Policy",, 0x00000010
 HKR, "Interrupt Management\Affinity Policy", DevicePolicy, 0x00010001, 5
 

@@ -1,3 +1,16 @@
+Version 1.100.1
+ install
+ add Windows Server 2012 R2 KMS sctivation support
+ add Windows 8.1 KMS activation support
+ fix installation without Guest Agent
+ fix installation without Balloon service
+ fix installation without Spice Agent
+ remove QXL drivers
+ 
+virtio-*
+ update all virtio version to upstream veersion
+
+ 
 Version 1.65.1
 installer
  add Spice Agent integration service

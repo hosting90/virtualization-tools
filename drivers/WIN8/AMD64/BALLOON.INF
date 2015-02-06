@@ -17,10 +17,11 @@ Signature="$WINDOWS NT$"
 Class=System
 ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
 Provider=%RHEL%
-DriverVer=06/19/2013,62.65.104.6500
+DriverVer=01/13/2015,62.71.104.10000
 CatalogFile=Balloon.cat
 DriverPackageType = PlugAndPlay
 DriverPackageDisplayName = %BALLOON.DeviceDesc%
+PnpLockdown = 1
 
 [DestinationDirs]
 DefaultDestDir = 12
@@ -29,14 +30,14 @@ DefaultDestDir = 12
 1 = %DiskId1%,,,""
 
 [SourceDisksFiles]
-BALLOON.sys  = 1,,
+balloon.sys  = 1,,
 
 ;*****************************************
 ; BALLOON  Install Section
 ;*****************************************
 
 [Manufacturer]
-%StdMfg%=Standard,NTamd64
+%RHEL%=Standard,NTamd64
 
 ; Following section is meant for Windows 2000 as it 
 ; cannot parse decorated model sections
@@ -55,7 +56,7 @@ BALLOON.sys  = 1,,
 CopyFiles=Drivers_Dir
 
 [Drivers_Dir]
-BALLOON.sys
+balloon.sys
 
 
 ;-------------- Service installation
@@ -68,15 +69,14 @@ DisplayName    = %BALLOON.SVCDESC%
 ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
 StartType      = 3               ; SERVICE_DEMAND_START 
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
-ServiceBinary  = %12%\BALLOON.sys
-LoadOrderGroup = Extended Base
+ServiceBinary  = %12%\balloon.sys
 
 ; -------------- BALLOON driver eventlog install sections
 [BALLOON_Logging_Inst]
 AddReg = BALLOON_Logging_Inst_AddReg
 
 [BALLOON_Logging_Inst_AddReg]
-HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\BALLOON.sys"
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\drivers\balloon.sys"
 HKR,,TypesSupported,0x00010001,7
 
 ;--- BALLOON_Device Coinstaller installation ------
@@ -106,8 +106,7 @@ KmdfLibraryVersion = 1.11
 
 [Strings]
 SPSVCINST_ASSOCSERVICE= 0x00000002
-RHEL = "Red Hat Inc."
-StdMfg = "VirtIO ballooning devices"
+RHEL = "Red Hat, Inc."
 DiskId1 = "VirtIO Balloon Installation Disk #1"
 BALLOON.DeviceDesc = "VirtIO Balloon Driver"
 BALLOON.SVCDESC = "VirtIO Balloon Service"

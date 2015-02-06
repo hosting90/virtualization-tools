@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <Data> 
-<AssessmentScore ScoreName="viostor.x64.General.XMLTimeStamp" ScoreValue="0" ScoreUnit="6/19/2013 4:51:51 AM" />
+<AssessmentScore ScoreName="viostor.x64.General.XMLTimeStamp" ScoreValue="0" ScoreUnit="01/13/2015 07:19:04" />
 <AssessmentScore ScoreName="viostor.x64.General.DriverBinary" ScoreValue="0" ScoreUnit="viostor.sys" />
-<AssessmentScore ScoreName="viostor.x64.General.BinaryTimeStamp" ScoreValue="0" ScoreUnit="6/19/2013 4:35:05 AM" />
+<AssessmentScore ScoreName="viostor.x64.General.BinaryTimeStamp" ScoreValue="0" ScoreUnit="01/13/2015 07:08:13" />
 <AssessmentScore ScoreName="viostor.x64.General.DriverType" ScoreValue="0" ScoreUnit="storport" />
-<AssessmentScore ScoreName="viostor.x64.General.DriverSize" ScoreValue="1958" ScoreUnit="LOC" />
+<AssessmentScore ScoreName="viostor.x64.General.DriverSize" ScoreValue="1987" ScoreUnit="LOC" />
 <AssessmentScore ScoreName="viostor.x64.General.DriverVersion" ScoreValue="0" ScoreUnit="0" />
 <AssessmentScore ScoreName="viostor.x64.General.Libs" ScoreValue="1" ScoreUnit="Number of external libraries used" />
-<AssessmentScore ScoreName="viostor.x64.SDV.Version" ScoreValue="0" ScoreUnit="3.0.483.0" />
+<AssessmentScore ScoreName="viostor.x64.SDV.Version" ScoreValue="0" ScoreUnit="4.0.500.1" />
 <AssessmentScore ScoreName="viostor.x64.SDV.DriverEntry.fun_HW_MESSAGE_SIGNALED_INTERRUPT_ROUTINE" ScoreValue="0" ScoreUnit="" />
 <AssessmentScore ScoreName="viostor.x64.SDV.DriverEntry.fun_SP_DriverEntry" ScoreValue="0" ScoreUnit="" />
 <AssessmentScore ScoreName="viostor.x64.SDV.DriverEntry.fun_SP_HW_ADAPTER_CONTROL" ScoreValue="0" ScoreUnit="" />
@@ -63,7 +63,6 @@
 <AssessmentScore ScoreName="viostor.x64.SDV.Rule.irqldispatch" ScoreValue="0" ScoreUnit="SDV_PASSED" />
 <AssessmentScore ScoreName="viostor.x64.SDV.Rule.iofreeirp" ScoreValue="0" ScoreUnit="SDV_PASSED" />
 
-<AssessmentScore ScoreName="viostor.x64.CodeAnalysis.Summary" ScoreValue="1" ScoreUnit="Types of defects seen" />
-<AssessmentScore ScoreName="viostor.x64.CodeAnalysis.Defect.28301" ScoreValue="2" ScoreUnit="" />
+<AssessmentScore ScoreName="viostor.x64.CodeAnalysis.Summary" ScoreValue="0" ScoreUnit="Types of defects seen" />
 
 </Data>

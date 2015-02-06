@@ -10,10 +10,11 @@ Signature="$WINDOWS NT$"
 Class=System
 ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
 Provider=%REDHAT%
-DriverVer=06/19/2013,61.65.104.6500 
+DriverVer=01/13/2015,61.71.104.10000 
 CatalogFile=vioser.cat
 DriverPackageType = PlugAndPlay
 DriverPackageDisplayName = %VirtioSerial.DeviceDesc%
+PnpLockdown = 1
 
 [DestinationDirs]
 DefaultDestDir = 12
@@ -30,7 +31,7 @@ vioser.sys  = 1,,
 ;*****************************************
 
 [Manufacturer]
-%RedHatMfg%=VirtioSerial,NTx86
+%REDHAT%=VirtioSerial,NTx86
 
 [VirtioSerial]
 ;
@@ -70,8 +71,6 @@ ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
 StartType      = 3               ; SERVICE_DEMAND_START
 ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
 ServiceBinary  = %12%\vioser.sys
-LoadOrderGroup = Extended Base
-
 
 ;--- VirtioSerial_Device Coinstaller installation ------
 ;
@@ -96,8 +95,7 @@ KmdfService =  VirtioSerial, VirtioSerial_wdfsect
 KmdfLibraryVersion = 1.9
 
 [Strings]
-REDHAT = "Red Hat Inc."
-RedHatMfg = "VirtIO-Serial communication device"
+REDHAT = "Red Hat, Inc."
 DiskId1 = "VirtIO-Serial Installation Disk #1"
 VirtioSerial.DeviceDesc = "VirtIO-Serial Driver"
 VirtioSerial.ServiceDesc = "VirtIO-Serial Service"
