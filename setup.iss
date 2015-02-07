@@ -339,6 +339,9 @@ Source: "drivers\COPYING"; DestDir: "{app}\drivers"; Flags: ignoreversion; Compo
 Source: "drivers\LICENSE"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; 
 Source: "CHANGELOG.txt"; DestDir: "{app}"; DestName: "CHANGELOG.txt"; Flags: ignoreversion
 
+[InstallDelete]
+Type: files; Name: "{app}\drivers\*"
+
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update"; ValueType: dword; ValueName: AUOptions; ValueData: 4; Tasks: setwindowsupdate
                                                                                                                                                                        
