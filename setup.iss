@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.100.1"
+#define MyAppVersion "1.100.2"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,14 +14,20 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-100-1
-Compression=lzma2/ultra
+OutputBaseFilename=virtio-setup-1-100-2
+;SetupIconFile=msys.ico
+Compression=lzma2/ultra64
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
 MinVersion=6.1
 ExtraDiskSpaceRequired=10485760
 CloseApplications=yes
 CloseApplicationsFilter=''
+PrivilegesRequired=admin
+AllowNetworkDrive=no
+AllowRootDirectory=no
+AllowUNCPath=no
+AppComments=Virtualization tools needed to optimal funnction in virtualized enviroment.
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
 ;SignTool - https://msdn.microsoft.com/en-US/windows/desktop/aa904949
 SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://timestamp.verisign.com/scripts/timastamp.dll $f 
@@ -89,26 +95,36 @@ external 'GetProductInfo@Kernel32.dll stdcall delayload';
 
 
 // Get command line argument value
-// Example -myParameter value
-function GetCommandlineParam(inParam: String):String;
+// Example /myParameter value
+function GetCommandlineParam(Param: String):String;
 var
-  LoopVar : Integer;
-  BreakLoop : Boolean;
+  i : Integer;
 begin
-  LoopVar :=0;
   Result := '';
-  BreakLoop := False;
-  while ((LoopVar < ParamCount) and (not BreakLoop)) do begin
-    if ( (ParamStr(LoopVar) = inParam) and
-         ( (LoopVar+1) <= ParamCount )) then
-    begin
-      Result := ParamStr(LoopVar+1);
-      BreakLoop := True;
+  Param := UpperCase(Param);
+  for i:=1 to ParamCount do begin
+    if((UpperCase(ParamStr(i)) = Param) and ((i+1) <= ParamCount )) then begin
+      Result := ParamStr(i+1);
+      Break;
     end;
-    LoopVar := LoopVar + 1;
   end;
 end;
 
+// Check if command line argumen exists
+// Example /myParameter value
+function IsCommandlineParam(Param: String):Boolean;
+var
+  i : Integer;
+begin
+  Result := false;
+  Param := UpperCase(Param);
+  for i:=1 to ParamCount do begin
+    if(UpperCase(ParamStr(i)) = Param) then begin
+      Result := ParamStr(i);
+      Break;
+    end;
+  end;
+end;
 
 function IsX64: Boolean;
 begin
