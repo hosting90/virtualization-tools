@@ -23,7 +23,7 @@ ExtraDiskSpaceRequired=10485760
 CloseApplications=yes
 CloseApplicationsFilter=''
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
-;SignTool - http://www.microsoft.com/en-us/download/details.aspx?id=8279
+;SignTool - https://msdn.microsoft.com/en-US/windows/desktop/aa904949
 SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://timestamp.verisign.com/scripts/timastamp.dll $f 
 
 [Languages]
@@ -87,6 +87,29 @@ external 'GetLastError@kernel32.dll stdcall';
 function GetProductInfo(major, minor, spmajor, spminor: Integer; var product: Integer): Integer;
 external 'GetProductInfo@Kernel32.dll stdcall delayload';
 
+
+// Get command line argument value
+// Example -myParameter value
+function GetCommandlineParam(inParam: String):String;
+var
+  LoopVar : Integer;
+  BreakLoop : Boolean;
+begin
+  LoopVar :=0;
+  Result := '';
+  BreakLoop := False;
+  while ((LoopVar < ParamCount) and (not BreakLoop)) do begin
+    if ( (ParamStr(LoopVar) = inParam) and
+         ( (LoopVar+1) <= ParamCount )) then
+    begin
+      Result := ParamStr(LoopVar+1);
+      BreakLoop := True;
+    end;
+    LoopVar := LoopVar + 1;
+  end;
+end;
+
+
 function IsX64: Boolean;
 begin
   Result := IsWin64 and (ProcessorArchitecture = paX64);
@@ -143,7 +166,6 @@ begin
   else
     Result := False;
 end;
-
 
 
 function GetMAKKey(Default:String): String;
