@@ -95,16 +95,18 @@ external 'GetProductInfo@Kernel32.dll stdcall delayload';
 
 
 // Get command line argument value
-// Example /myParameter value
+// Example /myParameter=value
 function GetCommandlineParam(Param: String):String;
 var
   i : Integer;
+  s : String;
 begin
   Result := '';
-  Param := UpperCase(Param);
+  Param := UpCase(Param);
   for i:=1 to ParamCount do begin
-    if((UpperCase(ParamStr(i)) = Param) and ((i+1) <= ParamCount )) then begin
-      Result := ParamStr(i+1);
+    s := UpCase(Copy(Param, 1, Pos('=', Param)-1));
+    if(UpCase(ParamStr(i)) = s) then begin
+      Result := Copy(Param, Pos('=', Param)+1, Length(Param))l
       Break;
     end;
   end;
