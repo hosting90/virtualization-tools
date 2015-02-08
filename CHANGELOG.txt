@@ -1,3 +1,7 @@
+Version 1.100.2
+ new command line arguments:
+ 
+
 Version 1.100.1
  install
  add Windows Server 2012 R2 KMS sctivation support

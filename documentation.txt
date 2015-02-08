@@ -1,0 +1,55 @@
+**********************************************
+* Virtualization tools setup                 *
+**********************************************
+
+Setup command line parameters:
+
+/SILENT
+  No questions, only installation progress.
+  
+/VERYSILENT
+  No questions, nothing is displayed.
+  
+/LOG
+  Create installation log file in $TEMP
+
+/LOG="filename"
+  Create installation log.
+  
+/NOCANCEL
+  Disable cancel button during installation (possible use with /SILENT)
+  
+/NORESTART
+  Disable system restart after install (possible use with /SILENT or /VERYSILENT)
+  
+/LOADINF="filename"
+  Load setup settings from .inf file.
+  
+/SAVEINF
+  Save setup settings to .inf file.
+
+/TYPE="full|custom"
+  Setup type.
+  
+/COMPONENTS="virtio,qemuga,ballooning,vdagent"
+  Enable/disable some components with the custom type install. To disable component add
+  "!" character at the begin of the component name.
+  Example: /COMPONENTS="virtio,!qemuga,ballooning,!vdagent"
+  virtio - Install paravirtualized drivers.
+  qemuga - Install Qemu Guest Agent service.
+  ballooning - Install memory ballooning service.
+  vdagent - Install Virtual Desktop Agent service.
+  Components not defined uses default values during new install,
+  or previews values during upgrade.
+  
+/TASKS="setguestrtc,setwindowskms,setwindowsupdate,disableipv6privacy,disableipv6randomize"
+  Enable/disable some configuration tasks during install. To disable component add
+  "!" character at the begin of the task name.
+  Example: /TASKS="setguestrtc,!setwindowskms,!setwindowsupdate,disableipv6privacy,disableipv6randomize"
+  setguestrtc - Configure use of virtual RTC.
+  setwindowskms - Setup KMS server activation.
+  setwindowsupdate - Enable automatic download of windows update files.
+  disableipv6privacy - Disable IPv6 privacy extensions.
+  disableipv6randomize - Disable IPv6 address randomization.
+  Tasks not defined uses default values during new install,
+  or previews values during upgrade.

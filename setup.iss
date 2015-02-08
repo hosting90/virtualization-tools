@@ -36,7 +36,7 @@ SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://time
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
-Name: "setguest"; Description: "Set virtual guest RTC"; GroupDescription: "Virtualization integration services"
+Name: "setguestrtc"; Description: "Set virtual guest RTC"; GroupDescription: "Virtualization integration services"
 Name: "setwindowskms"; Description: "Activate Windows and setup KMS"; GroupDescription: "Software licensing and updates"; Check: IsMAKKey
 Name: "setwindowsupdate"; Description: "Enable automatic Windows Updates"; GroupDescription: "Software licensing and updates"
 Name: "disableipv6privacy"; Description: "Disable IPv6 privacy extensions (RFC 4941)"; GroupDescription: "Network configuration"
@@ -363,8 +363,8 @@ Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Aut
                                                                                                                                                                        
 [Run]
 ; Configure RTC
-Filename: "{sys}\bcdedit.exe"; Parameters: "/set USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguest
-Filename: "{sys}\bcdedit.exe"; Parameters: "/set {{DEFAULT}} USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguest
+Filename: "{sys}\bcdedit.exe"; Parameters: "/set USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc
+Filename: "{sys}\bcdedit.exe"; Parameters: "/set {{DEFAULT}} USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc
 
 ; Configure IPv6
 Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=active"; Flags: runhidden; Tasks: disableipv6privacy
