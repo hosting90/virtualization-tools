@@ -1,7 +1,6 @@
 Virtualization Tools
 
-This installer contains VirtIO drivers and additional programs used to better integration
-with virtual server platform.
+This installer contains VirtIO drivers and additional programs used to better integration with virtual server platform.
 
 Changelog:
 
@@ -10,8 +9,8 @@ installer
  command line documentation
  new command line arguments:
   /TYPE="full|custom"
-  /COMPONENTS="virtio,qemuga,ballooning,vdagent"
-  /TASKS="setguestrtc,setwindowskms,setwindowsupdate,disableipv6privacy,disableipv6randomize"
+  /COMPONENTS="virtio,qemuga,..."
+  /TASKS="setguestrtc,setwindowskms,..."
   /LOADINF="filename"
   /SAVEINF="filename"
 
