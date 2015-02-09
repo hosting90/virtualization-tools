@@ -1,5 +1,13 @@
+Virtualization Tools
+
+This installer contains VirtIO drivers and additional programs used to better integration
+with virtual server platform.
+
+Changelog:
+
 Version 1.100.2
 installer
+ command line documentation
  new command line arguments:
   /TYPE="full|custom"
   /COMPONENTS="virtio,qemuga,ballooning,vdagent"

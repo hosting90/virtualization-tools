@@ -27,6 +27,7 @@ PrivilegesRequired=admin
 AllowNetworkDrive=no
 AllowRootDirectory=no
 AllowUNCPath=no
+InfoBeforeFile=changelog.txt
 AppComments=Virtualization tools needed to optimal funnction in virtualized enviroment.
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
 ;SignTool - https://msdn.microsoft.com/en-US/windows/desktop/aa904949
@@ -356,6 +357,7 @@ Source: "drivers\win8\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; C
 Source: "drivers\COPYING"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio;
 Source: "drivers\LICENSE"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; 
 Source: "CHANGELOG.txt"; DestDir: "{app}"; DestName: "CHANGELOG.txt"; Flags: ignoreversion
+Source: "DOCUMENTATION.txt"; DestDir: "{app}"; DestName: "DOCUMENTATION.txt"; Flags: ignoreversion
 
 [InstallDelete]
 Type: files; Name: "{app}\drivers\*"
