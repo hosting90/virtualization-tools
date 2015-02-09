@@ -25,7 +25,7 @@ Setup command line parameters:
 /LOADINF="filename"
   Load setup settings from .inf file.
   
-/SAVEINF
+/SAVEINF="filename"
   Save setup settings to .inf file.
 
 /TYPE="full|custom"

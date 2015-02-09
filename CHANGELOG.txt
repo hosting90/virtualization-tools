@@ -1,6 +1,12 @@
 Version 1.100.2
+installer
  new command line arguments:
- 
+  /TYPE="full|custom"
+  /COMPONENTS="virtio,qemuga,ballooning,vdagent"
+  /TASKS="setguestrtc,setwindowskms,setwindowsupdate,disableipv6privacy,disableipv6randomize"
+  /LOADINF="filename"
+  /SAVEINF="filename"
+
 
 Version 1.100.1
  install

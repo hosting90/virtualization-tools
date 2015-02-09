@@ -102,11 +102,11 @@ var
   s : String;
 begin
   Result := '';
-  Param := UpCase(Param);
+  Param := UpperCase(Param);
   for i:=1 to ParamCount do begin
-    s := UpCase(Copy(Param, 1, Pos('=', Param)-1));
-    if(UpCase(ParamStr(i)) = s) then begin
-      Result := Copy(Param, Pos('=', Param)+1, Length(Param))l
+    s := UpperCase(Copy(Param, 1, Pos('=', Param)-1));
+    if(UpperCase(ParamStr(i)) = s) then begin
+      Result := Copy(Param, Pos('=', Param)+1, Length(Param));
       Break;
     end;
   end;
@@ -365,39 +365,39 @@ Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Aut
                                                                                                                                                                        
 [Run]
 ; Configure RTC
-Filename: "{sys}\bcdedit.exe"; Parameters: "/set USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc
-Filename: "{sys}\bcdedit.exe"; Parameters: "/set {{DEFAULT}} USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc
+Filename: "{sys}\bcdedit.exe"; Parameters: "/set USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting RTC..."
+Filename: "{sys}\bcdedit.exe"; Parameters: "/set {{DEFAULT}} USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting RTC..."
 
 ; Configure IPv6
-Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=active"; Flags: runhidden; Tasks: disableipv6privacy
-Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=persistent"; Flags: runhidden; Tasks: disableipv6privacy
-Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set global randomizeidentifiers=disabled store=active"; Flags: runhidden; Tasks: disableipv6randomize
-Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set global randomizeidentifiers=disabled store=persistent"; Flags: runhidden; Tasks: disableipv6randomize
+Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=active"; Flags: runhidden; Tasks: disableipv6privacy; StatusMsg: "Disabling IPv6 privacy extensions..."
+Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=persistent"; Flags: runhidden; Tasks: disableipv6privacy; StatusMsg: "Disabling IPv6 privacy extensions..."
+Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set global randomizeidentifiers=disabled store=active"; Flags: runhidden; Tasks: disableipv6randomize; StatusMsg: "Disabling IPv6 address randomization..."
+Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set global randomizeidentifiers=disabled store=persistent"; Flags: runhidden; Tasks: disableipv6randomize; StatusMsg: "Disabling IPv6 address randomization..."
 
 ; Install drivers
-Filename: "{app}\certutil.exe"; Parameters: "-addstore TrustedPublisher RedHat.cer"; WorkingDir: "{app}"; Flags: runhidden; Components: virtio
-Filename: "{sys}\PnPutil.exe"; Parameters: "-i -a ""{app}\drivers\*.inf"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio
+Filename: "{app}\certutil.exe"; Parameters: "-addstore TrustedPublisher RedHat.cer"; WorkingDir: "{app}"; Flags: runhidden; Components: virtio; StatusMsg: "Installing drivers..."
+Filename: "{sys}\PnPutil.exe"; Parameters: "-i -a ""{app}\drivers\*.inf"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio; StatusMsg: "Installing drivers..."
 
 ; Install Balloon Service
-Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Flags: 64bit runhidden; Components: virtio and ballooning
-Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and ballooning
+Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Flags: 64bit runhidden; Components: virtio and ballooning; StatusMsg: "Installing ballooning service..."
+Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and ballooning; StatusMsg: "Installing ballooning service..."
 
 ; Install QEMU Guest Agent service
-Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga
-Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga
+Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
+Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 
 ; Install Spice Agent service
-Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent
-Filename: "{sys}\sc.exe"; Parameters: "start vdservice"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent                                                                           
+Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
+Filename: "{sys}\sc.exe"; Parameters: "start vdservice"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
 
 ; Windows Updates
-Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start= auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate                                                                           
-Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate
+Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start= auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."
+Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."
 
 ; Set KMS and activate
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms kms.hosting90.net"; Flags: runhidden; Tasks: setwindowskms
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms 
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms kms.hosting90.net"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 
 [UninstallRun]
 Filename: "{app}\qemu-ga.exe"; Parameters: "--service uninstall"; WorkingDir: "{app}"; Flags: 64bit runhidden
