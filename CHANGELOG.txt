@@ -4,6 +4,15 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.100.4
+installer
+ update NTP synchronization setting
+
+Version 1.100.3
+virtio-stor
+virtio-scsi
+  Fix driver signing.
+
 Version 1.100.2
 installer
  command line documentation

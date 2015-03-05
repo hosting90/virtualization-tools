@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.100.2"
+#define MyAppVersion "1.100.4"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,7 +14,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-100-2
+OutputBaseFilename=virtio-setup-1-100-3
 ;SetupIconFile=msys.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -369,6 +369,7 @@ Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Aut
 ; Configure RTC
 Filename: "{sys}\bcdedit.exe"; Parameters: "/set USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting RTC..."
 Filename: "{sys}\bcdedit.exe"; Parameters: "/set {{DEFAULT}} USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting RTC..."
+Filename: "{sys}\schtasks.exe"; Parameters: "/Change /RI 120 /TN ""\Microsoft\Windows\Time Synchronization\SynchronizeTime"""; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting NTP..."
 
 ; Configure IPv6
 Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=active"; Flags: runhidden; Tasks: disableipv6privacy; StatusMsg: "Disabling IPv6 privacy extensions..."
