@@ -53,3 +53,6 @@ Setup command line parameters:
   disableipv6randomize - Disable IPv6 address randomization.
   Tasks not defined uses default values during new install,
   or previews values during upgrade.
+
+/KMS=kms.example.com
+  Use non default KMS server to activate windows.
