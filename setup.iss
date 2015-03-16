@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.100.4"
+#define MyAppVersion "1.100.5"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,7 +14,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-100-3
+OutputBaseFilename=virtio-setup-1-100-5
 ;SetupIconFile=msys.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -350,6 +350,7 @@ Source: "vdagent.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdage
 Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
+Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "drivers\win7\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
 Source: "drivers\win8\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
 Source: "drivers\win7\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
@@ -369,7 +370,8 @@ Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Aut
 ; Configure RTC
 Filename: "{sys}\bcdedit.exe"; Parameters: "/set USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting RTC..."
 Filename: "{sys}\bcdedit.exe"; Parameters: "/set {{DEFAULT}} USEPLATFORMCLOCK on"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting RTC..."
-Filename: "{sys}\schtasks.exe"; Parameters: "/Change /RI 120 /TN ""\Microsoft\Windows\Time Synchronization\SynchronizeTime"""; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting NTP..."
+Filename: "{sys}\schtasks.exe"; Parameters: "/Delete /TN ""\Microsoft\Windows\Time Synchronization\SynchronizeTime"" /F"; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting NTP 1/2..."
+Filename: "{sys}\schtasks.exe"; Parameters: "/Create /XML ""{app}\time-sync.xml"" /TN ""\Microsoft\Windows\Time Synchronization\SynchronizeTime"""; WorkingDir: "{sys}"; Flags: runhidden; Tasks: setguestrtc; StatusMsg: "Setting NTP 2/2..."
 
 ; Configure IPv6
 Filename: "{sys}\netsh.exe"; Parameters: "interface ipv6 set privacy state=disabled store=active"; Flags: runhidden; Tasks: disableipv6privacy; StatusMsg: "Disabling IPv6 privacy extensions..."

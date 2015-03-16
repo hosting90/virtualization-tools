@@ -4,6 +4,10 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.100.5
+installer
+ fix NTP synchronization (Windows Server 2012 and 2012 R2)
+
 Version 1.100.4
 installer
  update NTP synchronization setting
