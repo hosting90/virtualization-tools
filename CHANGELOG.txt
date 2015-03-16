@@ -4,6 +4,11 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.100.6
+installer
+ new command line argument:
+ /KMS=kms.example.com
+
 Version 1.100.5
 installer
  fix NTP synchronization (Windows Server 2012 and 2012 R2)

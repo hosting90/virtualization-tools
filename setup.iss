@@ -186,16 +186,17 @@ begin
     Result := False;
 end;
 
-procedure GetKMSServer();
+function GetKMSServer(Default: String): String;
 var
   KMS: String;
 begin
-//:='kms.hosting90.net';
   KMS := GetCommandlineParam('/KMS');
-  MsgBox('DEBUG: '+KMS, mbInformation, MB_OK);
+  if(KMS = '') then
+    KMS := Default;
+  Result := KMS;
 end;
 
-function GetMAKKey(Default:String): String;
+function GetMAKKey(Default: String): String;
 var
   Version: TWindowsVersion;
   Product: Integer;
@@ -358,7 +359,7 @@ Source: "vdagent.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdage
 Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
-Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion; BeforeInstall: GetKMSServer();
+Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "drivers\win7\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
 Source: "drivers\win8\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
 Source: "drivers\win7\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
@@ -409,7 +410,7 @@ Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Fl
 
 ; Set KMS and activate
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms kms.hosting90.net"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer|'kms.hosting90.net'}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 
 [UninstallRun]
