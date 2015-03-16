@@ -104,10 +104,10 @@ var
 begin
   Result := '';
   Param := UpperCase(Param);
-  for i:=1 to ParamCount do begin
-    s := UpperCase(Copy(Param, 1, Pos('=', Param)-1));
-    if(UpperCase(ParamStr(i)) = s) then begin
-      Result := Copy(Param, Pos('=', Param)+1, Length(Param));
+  for i:=1 to ParamCount() do begin
+    s := UpperCase(Copy(ParamStr(i), 1, Pos('=', ParamStr(i))-1));
+    if(Param = s) then begin
+      Result := Copy(ParamStr(i), Pos('=', ParamStr(i))+1, Length(ParamStr(i)));
       Break;
     end;
   end;
@@ -186,6 +186,14 @@ begin
     Result := False;
 end;
 
+procedure GetKMSServer();
+var
+  KMS: String;
+begin
+//:='kms.hosting90.net';
+  KMS := GetCommandlineParam('/KMS');
+  MsgBox('DEBUG: '+KMS, mbInformation, MB_OK);
+end;
 
 function GetMAKKey(Default:String): String;
 var
@@ -350,7 +358,7 @@ Source: "vdagent.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdage
 Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
-Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion;
+Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion; BeforeInstall: GetKMSServer();
 Source: "drivers\win7\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
 Source: "drivers\win8\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
 Source: "drivers\win7\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
