@@ -3,6 +3,9 @@ Virtualization Tools
 This installer contains VirtIO drivers and additional programs used to better integration with virtual server platform.
 
 Changelog:
+Version 1.100.7
+installer
+  Fix code-signing timestamp.
 
 Version 1.100.6
 installer

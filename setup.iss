@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.100.6"
+#define MyAppVersion "1.100.7"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
@@ -14,7 +14,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=virtio-setup-1-100-6
+OutputBaseFilename=virtio-setup-1-100-7
 ;SetupIconFile=msys.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
@@ -31,7 +31,7 @@ InfoBeforeFile=changelog.txt
 AppComments=Virtualization tools needed to optimal funnction in virtualized enviroment.
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = signtool.exe $p"
 ;SignTool - https://msdn.microsoft.com/en-US/windows/desktop/aa904949
-SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /t http://timestamp.verisign.com/scripts/timastamp.dll $f 
+SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /tr http://www.startssl.com/timestamp $f 
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
