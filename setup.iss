@@ -1,8 +1,3 @@
-#define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.100.7"
-#define MyAppPublisher "HOSTING90 systems s.r.o."
-#define MyAppURL "http://www.hosting90.cz"
-
 [Setup]
 AppId={{0AD5E7A0-92C7-4E15-9DCB-151E131C7038}
 AppName={#MyAppName}
@@ -410,7 +405,7 @@ Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Fl
 
 ; Set KMS and activate
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer|'kms.hosting90.net'}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer|'{#MyKmsServer}'}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 
 [UninstallRun]
