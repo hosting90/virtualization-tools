@@ -5,7 +5,7 @@ ClassGuid       = {4d36e97d-e325-11ce-bfc1-08002be10318}
 Provider        = %RedHatMfg%
 CatalogFile     = viorng.cat
 PnpLockdown     = 1
-DriverVer=01/13/2015,61.71.104.10000
+DriverVer=06/03/2015,61.72.104.10500
 
 [DestinationDirs]
 DefaultDestDir = 12

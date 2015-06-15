@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;
-; Copyright (c) 2010 Red Hat Inc.
+; Copyright (c) 2010-2015 Red Hat Inc.
 ;
 ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -10,7 +10,7 @@ Signature="$WINDOWS NT$"
 Class=System
 ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
 Provider=%REDHAT%
-DriverVer=01/13/2015,62.71.104.10000
+DriverVer=06/03/2015,62.72.104.10500
 CatalogFile=vioser.cat
 DriverPackageType = PlugAndPlay
 DriverPackageDisplayName = %VirtioSerial.DeviceDesc%
@@ -33,7 +33,7 @@ vioser.sys  = 1,,
 [Manufacturer]
 %REDHAT%=VirtioSerial,NTx86
 
-[VirtioSerial]
+[VirtioSerial.NTx86]
 ;
 ; Hw Id is PCI\VEN_1AF4&DEV_1003&SUBSYS_00031AF4
 ;

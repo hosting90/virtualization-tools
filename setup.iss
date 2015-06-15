@@ -346,11 +346,13 @@ begin
 end;
 
 [Files]
-Source: "libglib-2.0-0.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
-Source: "libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
-Source: "libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
-Source: "qemu-ga.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
-Source: "vdagent.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
+Source: "libglib_2.0_0.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "iconv.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "intl.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "qemu_ga.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "qemu_ga.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "qga_vss.tlb"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
+Source: "qga_vss.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
@@ -392,7 +394,8 @@ Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Fla
 Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and ballooning; StatusMsg: "Installing ballooning service..."
 
 ; Install QEMU Guest Agent service
-Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
+Filename: "{app}\qemu-ga.exe"; Parameters: "--service uninstall"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Removing old QEMU Guest Agent service..."
+Filename: "{app}\qemu_ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 
 ; Install Spice Agent service
