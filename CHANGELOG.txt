@@ -4,6 +4,10 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 100.5.2
+installer
+  Fix qemu-ga install.
+
 Version 100.5.1
 virtio-stor
 virtio-scsi
