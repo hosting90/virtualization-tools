@@ -394,7 +394,7 @@ Filename: "{app}\blnsvr.exe"; Parameters: "-i"; WorkingDir: "{app}\drivers"; Fla
 Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and ballooning; StatusMsg: "Installing ballooning service..."
 
 ; Install QEMU Guest Agent service
-Filename: "{app}\qemu-ga.exe"; Parameters: "--service uninstall"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Removing old QEMU Guest Agent service..."
+Filename: "{app}\qemu-ga.exe"; Parameters: "--service uninstall"; WorkingDir: "{app}"; Flags: 64bit runhidden skipifdoesntexist; Components: virtio and qemuga; StatusMsg: "Removing old QEMU Guest Agent service..."
 Filename: "{app}\qemu_ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 
