@@ -348,7 +348,6 @@ end;
 [Files]
 Source: "libglib-2.0-0.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
 Source: "iconv.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
-Source: "intl.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
 Source: "qemu-ga.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
 Source: "qga-vss.tlb"; DestDir: "{app}"; Flags: ignoreversion; Components: qemuga
 Source: "qga-vss.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: vdagent
