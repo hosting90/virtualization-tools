@@ -4,6 +4,10 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.105.4
+install
+  Fix KMS activation.
+
 Version 1.105.3
 install
   Fix qemu-ga install.

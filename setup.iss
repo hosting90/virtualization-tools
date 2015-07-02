@@ -187,7 +187,7 @@ var
 begin
   KMS := GetCommandlineParam('/KMS');
   if(KMS = '') then
-    KMS := Default;
+    KMS := '{#MyKmsServer}';
   Result := KMS;
 end;
 
@@ -407,7 +407,7 @@ Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Fl
 
 ; Set KMS and activate
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer|'{#MyKmsServer}'}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 
 [UninstallRun]
