@@ -396,10 +396,12 @@ Filename: "{sys}\sc.exe"; Parameters: "start BalloonService"; WorkingDir: "{app}
 ; Install QEMU Guest Agent service
 Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
+;Filename: "{sys}\sc.exe"; Parameters: "start ""QEMU Guest Agent VSS Provider"""; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent VSS service..."
+
 
 ; Install Spice Agent service
 Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
-Filename: "{sys}\sc.exe"; Parameters: "start vdservice"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
+Filename: "{sys}\sc.exe"; Parameters: "config vdservice start=disabled"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
 
 ; Windows Updates
 Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start= auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."

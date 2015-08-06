@@ -4,6 +4,10 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.105.5
+install
+  Fix spice vdesktop service startup.
+
 Version 1.105.4
 install
   Fix KMS activation.
