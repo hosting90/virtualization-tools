@@ -1,3 +1,16 @@
+;/*++
+;
+;Copyright (c) 2015 Red Hat Inc.
+;
+;Module Name:
+;    pvpanic.inf
+;
+;Abstract:
+;
+;Installation Notes:
+;    Using Devcon: Type "devcon install pvpanic.inf ACPI\QEMU0001" to install
+;
+;--*/
 
 [Version]
 Signature       = "$WINDOWS NT$"
@@ -6,7 +19,7 @@ ClassGuid       = {4d36e97d-e325-11ce-bfc1-08002be10318}
 Provider        = %RedHatMfg%
 CatalogFile     = pvpanic.cat
 PnpLockdown     = 1
-DriverVer=06/03/2015,62.72.104.10500
+DriverVer=08/10/2015,62.72.104.10900
 
 [DestinationDirs]
 DefaultDestDir = 12

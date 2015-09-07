@@ -4,6 +4,11 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.109.1
+drivers
+  Remove 32bit driver
+  Update drivers  to version 109-2
+
 Version 1.105.5
 install
   Fix spice vdesktop service startup.
