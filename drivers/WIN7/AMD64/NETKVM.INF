@@ -13,7 +13,7 @@ Class       = Net
 CatalogFile = netkvm.cat 
 ClassGUID   = {4d36e972-e325-11ce-bfc1-08002be10318} 
 Provider    = %RedHat% 
-DriverVer=08/10/2015,61.72.104.10900 
+DriverVer=09/22/2015,61.72.104.11000 
 DriverPackageType = PlugAndPlay 
 DriverPackageDisplayName = %kvmnet6.DeviceDesc% 
  
@@ -30,7 +30,7 @@ AddReg          = kvmnet6.EnableMSI
 ;HKR, "Interrupt Management",, 0x00000010 
 ;HKR, "Interrupt Management\MessageSignaledInterruptProperties",, 0x00000010 
 HKR, "Interrupt Management\MessageSignaledInterruptProperties", MSISupported, 0x00010001, 1 
-HKR, "Interrupt Management\MessageSignaledInterruptProperties", MessageNumberLimit, 0x00010001, 32 
+HKR, "Interrupt Management\MessageSignaledInterruptProperties", MessageNumberLimit, 0x00010001, 2048 
 ;HKR, "Interrupt Management\Affinity Policy",, 0x00000010 
 HKR, "Interrupt Management\Affinity Policy", DevicePolicy, 0x00010001, 0 
 HKR, "Interrupt Management\Affinity Policy", DevicePriority, 0x00010001, 2 

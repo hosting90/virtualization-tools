@@ -4,6 +4,12 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.110.1
+drivers
+  Fix network performance problem
+  Fix viostor/vioscsi certification check
+  Update QXL to latest build (0.1-24)
+
 Version 1.109.1
 drivers
   Remove 32bit driver

@@ -1,9 +1,9 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.109.1"
+#define MyAppVersion "1.110.1"
 #define MyAppPublisher "HOSTING90 systems s.r.o."
 #define MyAppURL "http://www.hosting90.cz"
 
-#define MyOutputBaseFilename "virtio-hosting90-1-109-1"
+#define MyOutputBaseFilename "virtio-hosting90-1-110-1"
 #define MyKmsServer "kms.hosting90.net"
 
 #include "setup.iss"
