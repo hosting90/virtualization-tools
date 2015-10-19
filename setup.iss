@@ -342,6 +342,14 @@ begin
     ewWaitUntilTerminated, 
     ResultCode
     );
+  Exec(
+    ExpandConstant('{sys}\sc.exe'),
+    'stop "gica"',
+    '', 
+    SW_HIDE, 
+    ewWaitUntilTerminated, 
+    ResultCode
+    );
   Result := '';
 end;
 
@@ -357,6 +365,8 @@ Source: "vdservice.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: vda
 Source: "certutil.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion;
+Source: "nssm.exe"; DestDir: "{app}"; Flags: ignoreversion;
+Source: "gica.exe"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "drivers\win7\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
 Source: "drivers\win8\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
 Source: "drivers\win7\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
@@ -398,19 +408,27 @@ Filename: "{app}\qemu-ga.exe"; Parameters: "--service install"; WorkingDir: "{ap
 Filename: "{sys}\sc.exe"; Parameters: "start qemu-ga"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent service..."
 ;Filename: "{sys}\sc.exe"; Parameters: "start ""QEMU Guest Agent VSS Provider"""; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: virtio and qemuga; StatusMsg: "Installing QEMU Guest Agent VSS service..."
 
-
 ; Install Spice Agent service
 Filename: "{app}\vdservice.exe"; Parameters: "install"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
 Filename: "{sys}\sc.exe"; Parameters: "config vdservice start=disabled"; WorkingDir: "{app}"; Flags: 64bit runhidden; Components: vdagent; StatusMsg: "Installing Virtual Desktop Agent service..."
 
 ; Windows Updates
-Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start= auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."
+Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start=auto"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."
 Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."
 
 ; Set KMS and activate
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
 Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+
+; Install and run Guest Integration and Communication Agent
+Filename: "{app}\nssm.exe"; Parameters: "stop gica"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
+Filename: "{app}\nssm.exe"; Parameters: "remove gica confirm"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
+Filename: "{app}\nssm.exe"; Parameters: "install gica ""{app}\gica.exe"" -r -i com1"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
+Filename: "{app}\nssm.exe"; Parameters: "set gica DisplayName Gica"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
+Filename: "{app}\nssm.exe"; Parameters: "set gica Description Guest Integration and Communication Agent"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
+Filename: "{app}\nssm.exe"; Parameters: "set gica Start SERVICE_AUTO_START"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
+Filename: "{app}\nssm.exe"; Parameters: "start gica"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
 
 [UninstallRun]
 Filename: "{app}\qemu-ga.exe"; Parameters: "--service uninstall"; WorkingDir: "{app}"; Flags: 64bit runhidden

@@ -4,6 +4,20 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.110.4
+install
+  Fix Windows Update activation.
+gica
+  Fix parser errors
+
+Version 1.110.3
+gica
+  Add powershell XML formated output.
+
+Version 1.110.2
+gica
+  Add Guest Integration and Communication Agent
+
 Version 1.110.1
 drivers
   Fix network performance problem
