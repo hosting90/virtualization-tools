@@ -4,6 +4,12 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.110.5
+install
+  Update Windows capabilities/versions detection
+  Update KMS server handling
+  White-label version does KMS setup only with command line argument /KMS=
+
 Version 1.110.4
 install
   Fix Windows Update activation.

@@ -33,7 +33,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "setguestrtc"; Description: "Set virtual guest RTC"; GroupDescription: "Virtualization integration services"
-Name: "setwindowskms"; Description: "Activate Windows and setup KMS"; GroupDescription: "Software licensing and updates"; Check: IsMAKKey
+Name: "setwindowskms"; Description: "Activate Windows and setup KMS"; GroupDescription: "Software licensing and updates"; Check: IsKMSAvailable;
 Name: "setwindowsupdate"; Description: "Enable automatic Windows Updates"; GroupDescription: "Software licensing and updates"
 Name: "disableipv6privacy"; Description: "Disable IPv6 privacy extensions (RFC 4941)"; GroupDescription: "Network configuration"
 Name: "disableipv6randomize"; Description: "Disable IPv6 address randomization (RFC 4941)"; GroupDescription: "Network configuration" 
@@ -49,6 +49,9 @@ Name: "ballooning"; Description: "Memory ballooning service"; Types: custom full
 Name: "vdagent"; Description: "Spice Agent integration service"; Types: custom full; Flags: restart
 
 [Code]
+var
+  GVLKWarning : Boolean;
+
 const
   PRODUCT_ULTIMATE = $00000001;
   PRODUCT_HOME_BASIC = $00000002;
@@ -186,17 +189,17 @@ var
   KMS: String;
 begin
   KMS := GetCommandlineParam('/KMS');
-  if(KMS = '') then
+  if((KMS = '') and ('{#MyKmsServer}'<>'')) then
     KMS := '{#MyKmsServer}';
   Result := KMS;
 end;
 
-function GetMAKKey(Default: String): String;
+function GetGVLKKey(Default: String): String;
 var
   Version: TWindowsVersion;
   Product: Integer;
 begin
-  Result := Default;
+  Result := '';
   GetWindowsVersionEx(Version);
   if (Version.Major = 6) then begin
     GetProductInfo(Version.Major, Version.Minor, 0, 0, Product);
@@ -301,23 +304,54 @@ begin
       end;
     end;
 
+    if (Version.Minor = 4) then begin // Windows 10
+      if (Version.ProductType = VER_NT_WORKSTATION) then begin // Windows 10
+        if(Product = PRODUCT_PROFESSIONAL) then
+          Result := 'W269N-WFGWX-YVC9B-4J6C9-T83GX';
+        if(Product = PRODUCT_PROFESSIONAL_N) then
+          Result := 'MH37W-N47XK-V7XM9-C7227-GCQG9';
+        if(Product = PRODUCT_ENTERPRISE) then
+          Result := 'NPPR9-FWDCX-D2C8J-H872K-2YT43';
+        if(Product = PRODUCT_ENTERPRISE_N) then
+          Result := 'DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4';
+      end else begin
+        if(Product = PRODUCT_STANDARD_SERVER) then
+          Result := '';
+        if(Product = PRODUCT_DATACENTER_SERVER) then
+          Result := '';
+        if(Product = PRODUCT_ESSENTIALS_SERVER) then
+          Result := '';
+      end;
+    end;
+
+	
   end;
 end;
 
-
-function IsMAKKey(): Boolean;
+function IsGVLKKey(): Boolean;
 begin
-  if (GetMAKKey('')='') then
-    Result := False
-  else
+  if (GetGVLKKey('')='') then begin
+    Result := False;
+	if((GVLKWarning = False) and (GetKMSServer('')<>'')) then begin
+	  MsgBox('GVLK Key was not found for this system.', mbInformation, MB_OK);
+	  GVLKWarning := True;
+	 end;
+  end else
     Result := True;
 end;
 
+function IsKMSAvailable(): Boolean;
+begin
+  Result := False;
+  if (IsGVLKKey() and (GetKMSServer('')<>'')) then
+    Result := True;
+end;
 
 function PrepareToInstall(var NeedsRestart: Boolean): String;
 var
   ResultCode : Integer;
 begin
+  GVLKWarning := False;
   Exec(
     ExpandConstant('{sys}\sc.exe'),
     'stop "BalloonService"',
@@ -417,9 +451,9 @@ Filename: "{sys}\sc.exe"; Parameters: "config wuauserv start=auto"; WorkingDir: 
 Filename: "{sys}\net.exe"; Parameters: "start wuauserv"; WorkingDir: "{app}"; Flags: runhidden; Tasks: setwindowsupdate; StatusMsg: "Enabling Windows Update..."
 
 ; Set KMS and activate
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetMAKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
-Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ipk {code:GetGVLKKey|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."; Check: IsKMSAvailable()
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /skms {code:GetKMSServer|''}"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."; Check: IsKMSAvailable()
+Filename: "{sys}\cscript.exe"; Parameters: "slmgr.vbs /ato"; Flags: runhidden; Tasks: setwindowskms; StatusMsg: "Installing KMS and activating..."; Check: IsKMSAvailable()
 
 ; Install and run Guest Integration and Communication Agent
 Filename: "{app}\nssm.exe"; Parameters: "stop gica"; Flags: runhidden; StatusMsg: "Installing Guest Integration and Communication Agent..."
