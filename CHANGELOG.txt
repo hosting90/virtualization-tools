@@ -4,6 +4,15 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.110.7
+gica
+  Fix parser errors
+  Fix exit/restart on error
+
+Version 1.110.6
+gica
+  Add self-update
+
 Version 1.110.5
 install
   Update Windows capabilities/versions detection
