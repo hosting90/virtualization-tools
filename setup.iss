@@ -14,7 +14,7 @@ OutputBaseFilename={#MyOutputBaseFilename}
 Compression=lzma2/ultra64
 SolidCompression=yes
 ArchitecturesInstallIn64BitMode=x64
-MinVersion=6.1
+MinVersion=6.0
 ExtraDiskSpaceRequired=10485760
 CloseApplications=yes
 CloseApplicationsFilter=''
@@ -239,7 +239,7 @@ begin
           Result := 'VKK3X-68KWM-X2YGT-QR4M6-4BWMV';
         if(Product = PRODUCT_ENTERPRISE_N) then
           Result := 'VTC42-BM838-43QHV-84HX6-XJXKV';
-      end else begin
+      end else begin // Windows Server 2008
         if(Product = PRODUCT_WEB_SERVER) or (Product = PRODUCT_WEB_SERVER_CORE) then
           Result := 'WYR28-R7TFJ-3X2YQ-YCY4H-M249D';
         if(Product = PRODUCT_STANDARD_SERVER) or (Product = PRODUCT_STANDARD_SERVER_CORE) then
@@ -292,7 +292,7 @@ begin
     end;
 
     if (Version.Minor = 2) then begin // Windows 8, Windows Server 2012
-      if (Version.ProductType = VER_NT_WORKSTATION) then begin // Vista
+      if (Version.ProductType = VER_NT_WORKSTATION) then begin // Windows 8
         if(Product = PRODUCT_PROFESSIONAL) then
           Result := 'NG4HW-VH26C-733KW-K6F98-J8CK4';
         if(Product = PRODUCT_PROFESSIONAL_N) then
@@ -301,7 +301,7 @@ begin
           Result := '32JNW-9KQ84-P47T8-D8GGY-CWCK7';
         if(Product = PRODUCT_ENTERPRISE_N) then
           Result := 'JMNMF-RHW7P-DMY6X-RF3DR-X2BQT';
-      end else begin
+      end else begin // Windows Server 2012
         if(Product = PRODUCT_STANDARD_SERVER) then
           Result := 'XC9B7-NBPP2-83J2H-RHMBY-92BT4';
         if(Product = PRODUCT_DATACENTER_SERVER) then
@@ -310,7 +310,7 @@ begin
     end;
 
     if (Version.Minor = 3) then begin // Windows 8.1, Windows Server 2012 R2
-      if (Version.ProductType = VER_NT_WORKSTATION) then begin // Vista
+      if (Version.ProductType = VER_NT_WORKSTATION) then begin // Windows 8.1
         if(Product = PRODUCT_PROFESSIONAL) then
           Result := 'GCRJD-8NW9H-F2CDX-CCM8D-9D6T9';
         if(Product = PRODUCT_PROFESSIONAL_N) then
@@ -319,7 +319,7 @@ begin
           Result := 'MHF9N-XY6XB-WVXMC-BTDCT-MKKG7';
         if(Product = PRODUCT_ENTERPRISE_N) then
           Result := 'TT4HM-HN7YT-62K67-RGRQJ-JFFXW';
-      end else begin
+      end else begin // Windows Server 2012 R2
         if(Product = PRODUCT_STANDARD_SERVER) then
           Result := 'D2N9P-3P6X9-2R39C-7RTCD-MDVJX';
         if(Product = PRODUCT_DATACENTER_SERVER) then
@@ -329,7 +329,12 @@ begin
       end;
     end;
 
-    if (Version.Minor = 4) then begin // Windows 10
+  end; // if (Version.Major = 6)
+
+  if (Version.Major = 10) then begin
+    GetProductInfo(Version.Major, Version.Minor, 0, 0, Product);
+
+    if (Version.Minor = 0) then begin // Windows 10, Windows Server 2016
       if (Version.ProductType = VER_NT_WORKSTATION) then begin // Windows 10
         if(Product = PRODUCT_PROFESSIONAL) then
           Result := 'W269N-WFGWX-YVC9B-4J6C9-T83GX';
@@ -339,18 +344,18 @@ begin
           Result := 'NPPR9-FWDCX-D2C8J-H872K-2YT43';
         if(Product = PRODUCT_ENTERPRISE_N) then
           Result := 'DPH2V-TTNVB-4X9Q3-TJR4H-KHJW4';
-      end else begin
+      end else begin // Windows Server 2016
         if(Product = PRODUCT_STANDARD_SERVER) then
-          Result := '';
+          Result := 'WC2BQ-8NRM3-FDDYY-2BFGV-KHKQY';
         if(Product = PRODUCT_DATACENTER_SERVER) then
-          Result := '';
+          Result := 'CB7KF-BWN84-R7R2Y-793K2-8XDDG';
         if(Product = PRODUCT_ESSENTIALS_SERVER) then
-          Result := '';
+          Result := 'JCKRF-N37P4-C2D82-9YXRT-4M63B';
       end;
     end;
 
-	
-  end;
+  end; // if (Version.Major = 10)
+
 end;
 
 function IsGVLKKey(): Boolean;
