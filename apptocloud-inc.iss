@@ -1,5 +1,5 @@
 #define MyAppName "Virtualization Tools"
-#define MyAppVersion "1.110.1"
+#define MyAppVersion "1.126.1"
 #define MyAppPublisher "AppToCloud s.r.o."
 #define MyAppURL "http://www.apptocloud.com"
 

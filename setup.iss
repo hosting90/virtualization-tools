@@ -26,7 +26,7 @@ InfoBeforeFile=changelog.txt
 AppComments=Virtualization tools needed to optimal funnction in virtualized enviroment.
 ;Define in Tools -> Configure Sign Tools: "signtool.exe = "C:\Program Files (x86)\Windows Kits\8.1\bin\x64\signtool.exe" $p $p"
 ;SignTool - https://msdn.microsoft.com/en-US/windows/desktop/aa904949
-SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /tr http://www.startssl.com/timestamp $f 
+;SignTool=signtool.exe sign /a /d $q{#MyAppName} {#MyAppVersion}$q /tr http://www.startssl.com/timestamp $f 
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -401,10 +401,10 @@ Source: "RedHat.cer"; DestDir: "{app}"; Flags: ignoreversion; Components: virtio
 Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "nssm.exe"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "gica.exe"; DestDir: "{app}"; Flags: ignoreversion;
-Source: "drivers\win7\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
-Source: "drivers\win8\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
-Source: "drivers\win7\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
-Source: "drivers\win8\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2012 
+Source: "drivers\2K8R2\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
+Source: "drivers\2K12R2\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
+Source: "drivers\2K8R2\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
+Source: "drivers\2K12R2\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2012 
 Source: "drivers\COPYING"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio;
 Source: "drivers\LICENSE"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; 
 Source: "CHANGELOG.txt"; DestDir: "{app}"; DestName: "CHANGELOG.txt"; Flags: ignoreversion
