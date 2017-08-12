@@ -4,6 +4,13 @@ This installer contains VirtIO drivers and additional programs used to better in
 
 Changelog:
 
+Version 1.126.1
+install
+  Update windows drivers to version 0.1.126
+  Add QXLDOD drivers
+  Update drivers signing certificate
+  Add initial support for Windows Server 2016
+
 Version 1.110.7
 gica
   Fix parser errors
