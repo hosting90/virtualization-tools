@@ -170,14 +170,39 @@ begin
     Result := False;
 end;
 
-
 function UseDriverForWindows2012(): Boolean;
 var
   Version: TWindowsVersion;
 begin
   GetWindowsVersionEx(Version);
   if (Version.Major = 6) and
-     ((Version.Minor = 2) or (Version.Minor = 3))
+     (Version.Minor = 2)
+  then
+    Result := True
+  else
+    Result := False;
+end;
+
+function UseDriverForWindows2012R2(): Boolean;
+var
+  Version: TWindowsVersion;
+begin
+  GetWindowsVersionEx(Version);
+  if (Version.Major = 6) and
+     (Version.Minor = 3)
+  then
+    Result := True
+  else
+    Result := False;
+end;
+
+function UseDriverForWindows2016(): Boolean;
+var
+  Version: TWindowsVersion;
+begin
+  GetWindowsVersionEx(Version);
+  if (Version.Major = 10) and
+     (Version.Minor = 0)
   then
     Result := True
   else
@@ -402,9 +427,11 @@ Source: "time-sync.xml"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "nssm.exe"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "gica.exe"; DestDir: "{app}"; Flags: ignoreversion;
 Source: "drivers\2K8R2\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2008R2
-Source: "drivers\2K12R2\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012
+Source: "drivers\2K12R2\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2012R2
+Source: "drivers\2K16\amd64\*"; Excludes: "BLNSVR.*"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; Check: UseDriverForWindows2016
 Source: "drivers\2K8R2\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2008R2
-Source: "drivers\2K12R2\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2012 
+Source: "drivers\2K12R2\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2012R2 
+Source: "drivers\2K16\amd64\BLNSVR.*"; DestDir: "{app}"; Flags: ignoreversion; Components: ballooning; Check:UseDriverForWindows2016 
 Source: "drivers\COPYING"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio;
 Source: "drivers\LICENSE"; DestDir: "{app}\drivers"; Flags: ignoreversion; Components: virtio; 
 Source: "CHANGELOG.txt"; DestDir: "{app}"; DestName: "CHANGELOG.txt"; Flags: ignoreversion
